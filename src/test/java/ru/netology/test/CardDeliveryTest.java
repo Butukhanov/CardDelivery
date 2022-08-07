@@ -28,6 +28,7 @@ public class CardDeliveryTest {
     public String generateDate(int days) {
         return LocalDate.now().plusDays(days).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
     }
+    String planningDate = generateDate(3);
 
     @Test
     void completedBlank() {
@@ -37,12 +38,12 @@ public class CardDeliveryTest {
         $("[data-test-id=date] .input__control").click();
         $("[data-test-id=date] .input__control").sendKeys(Keys.CONTROL + "A");
         $("[data-test-id=date] .input__control").sendKeys(BACK_SPACE);
-        $("[data-test-id=date] .input__control").setValue(generateDate(3));
+        $("[data-test-id=date] .input__control").setValue(planningDate);
         $("[data-test-id=name] .input__control").setValue("Иванов Иван");
         $("[data-test-id=phone] .input__control").setValue("+79000000000");
         $("[data-test-id=agreement]").click();
         $x("//button[contains(@class, 'button_view_extra')]").click();
         $("[data-test-id=notification]").shouldBe(visible, Duration.ofSeconds(15));
-        $("[data-test-id=notification] [class='notification__content']").shouldHave(exactText("Встреча успешно забронирована на " + generateDate(3)));
+        $("[data-test-id=notification] [class='notification__content']").shouldHave(exactText("Встреча успешно забронирована на " + planningDate));
     }
 }
