@@ -26,7 +26,7 @@ public class CardDeliveryTest {
     @Test
     void completedBlank() {
         Configuration.holdBrowserOpen = true;
-        open("http://localhost:9999");
+        open("http://localhost:9999/");
         $("[data-test-id=city] input").setValue("Москва");
         $("[data-test-id=date] .input__control").click();
         $("[data-test-id=date] .input__control").sendKeys(Keys.CONTROL + "A");
