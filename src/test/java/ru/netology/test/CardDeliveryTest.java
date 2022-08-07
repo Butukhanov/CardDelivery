@@ -6,6 +6,8 @@ import org.openqa.selenium.Keys;
 
 import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -16,11 +18,15 @@ import static org.openqa.selenium.Keys.BACK_SPACE;
 
 public class CardDeliveryTest {
 
-    public String getDate() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-        Calendar calendar = new GregorianCalendar();
-        calendar.add(Calendar.DAY_OF_MONTH, +7);
-        return dateFormat.format(calendar.getTime());
+//    public String getDate() {
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+//        Calendar calendar = new GregorianCalendar();
+//        calendar.add(Calendar.DAY_OF_MONTH, +7);
+//        return dateFormat.format(calendar.getTime());
+//    }
+
+    public String generateDate(int days) {
+        return LocalDate.now().plusDays(days).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
     }
 
     @Test
@@ -31,12 +37,12 @@ public class CardDeliveryTest {
         $("[data-test-id=date] .input__control").click();
         $("[data-test-id=date] .input__control").sendKeys(Keys.CONTROL + "A");
         $("[data-test-id=date] .input__control").sendKeys(BACK_SPACE);
-        $("[data-test-id=date] .input__control").setValue(getDate());
+        $("[data-test-id=date] .input__control").setValue(generateDate(3));
         $("[data-test-id=name] .input__control").setValue("Иванов Иван");
         $("[data-test-id=phone] .input__control").setValue("+79000000000");
         $("[data-test-id=agreement]").click();
         $x("//button[contains(@class, 'button_view_extra')]").click();
         $("[data-test-id=notification]").shouldBe(visible, Duration.ofSeconds(15));
-        $("[data-test-id=notification] [class='notification__content']").shouldHave(exactText("Встреча успешно забронирована на " + getDate()));
+        $("[data-test-id=notification] [class='notification__content']").shouldHave(exactText("Встреча успешно забронирована на " + generateDate(3)));
     }
 }
